@@ -1,0 +1,4 @@
+php_value error_reporting 8191
+php_value log_errors Off
+php_value display_errors On
+php_value magic_quotes_gpc 0
