@@ -146,6 +146,30 @@ public static function createFromName($name)
 	return $c;
 }
 
+/**
+ * Funkcia sa pokúsi vytvoriť objekt podľa zadaného parametru, ktorý môže
+ * byť buď názov farby (podobne ako u createFromName), alebo pole obsahujúce
+ * zložky r, g, b a voliteľne alfa kanál.
+ */
+public static function create($data)
+{
+	if (is_array($data))
+	{
+		switch(count($data))
+		{
+			case 3:
+				return self::createFromComponents($data[0], $data[1], $data[2]);
+			case 4:
+				return self::createFromComponents($data[0], $data[1], $data[2], $data[3]);
+			default:
+				return false;
+		}
+	}
+	else if (is_string($data))
+		return self::createFromName($data);
+	else
+		return false;
+}
 
 /// Zízkanie červenej farebnej zložky.
 public function r() { return $this->r; }
@@ -164,11 +188,11 @@ public function hasAlpha() { return $this->hasAlpha; }
  * \param[in] img Vstupný obrázok.
  * \return Identifikátor alokovanej farby.
  */
-public function allocate($img)
+public function allocColor($img)
 {
 	if ($this->hasAlpha)
 	{
-		return imagecolorallocatealpha($img, $this->r, $this->g, $this->b, (int)$this->alpha / 2);
+		return imagecolorallocatealpha($img, $this->r, $this->g, $this->b, (int)($this->alpha / 2));
 	}
 	else
 	{
