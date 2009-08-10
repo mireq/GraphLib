@@ -229,4 +229,5 @@ private static function generateColorNames()
 
 };
 
+
 ?>

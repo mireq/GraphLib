@@ -8,7 +8,7 @@ class Plot
 /**
  * Virtuálna funkcia na vykreslenie grafu do obrázku.
  */
-public function draw($img, $x1, $y1, $x2, $y2) {}
+public function draw($img, $xScale, $yScale) {}
 
 /// Virtuálna funkcia, vracia minimálnu hodnotu na X-ovej osi.
 public function minX() {}
