@@ -16,7 +16,7 @@ private $maxY = null;
 private $lineColor = 'black';
 private $fillColor = null;
 
-public function __construct($yData, $xData = null)
+public function __construct(array $yData, $xData = null)
 {
 	if (is_null($xData))
 	{
@@ -87,7 +87,7 @@ public function minY() { return $this->minY; }
 public function maxY() { return $this->maxY; }
 
 /// \overload
-public function draw($img, $xScale, $yScale)
+public function draw($img, Scale $xScale, Scale $yScale)
 {
 /// TODO: Nastavenie hrúbky čiar
 	imagesetthickness($img, 1);
@@ -107,14 +107,16 @@ public function draw($img, $xScale, $yScale)
 		array_push($computed, $yScale->translate($this->yData[$i]));
 	}
 
-	$polygon = array($xScale->translate($xScale->min()), $yScale->translate($yScale->min()));
-	$polygon = array_merge($polygon, $computed);
-	array_push($polygon, $xScale->translate($xScale->max()));
-	array_push($polygon, $yScale->translate($yScale->min()));
-
 	if (!is_null($this->fillColor))
+	{
+		$polygon = array($xScale->translate($xScale->min()), $yScale->translate($yScale->min()));
+		$polygon = array_merge($polygon, $computed);
+		array_push($polygon, $xScale->translate($xScale->max()));
+		array_push($polygon, $yScale->translate($yScale->min()));
+
 		imagefilledpolygon($img, $polygon, count($polygon) / 2, $fillColor);
-	unset($polygon);
+		unset($polygon);
+	}
 
 	$ox = null;
 	$oy = null;

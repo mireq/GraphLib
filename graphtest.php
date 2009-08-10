@@ -3,12 +3,12 @@
 require_once("GraphLib/Graph.php");
 require_once("GraphLib/PlotLine.php");
 
-$pos = 0;
+$pos = -50;
 $ydata = array();
-for ($i = 0; $i < 1000; ++$i)
+for ($i = 0; $i <= 300; ++$i)
 {
+	array_push($ydata, max(-50, $pos));
 	$pos += rand(-2,3);
-	array_push($ydata, $pos);
 }
 
 $graph = new Graph(600, 300);
