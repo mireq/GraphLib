@@ -2,6 +2,9 @@
 
 require_once("Plot.php");
 
+/**
+ * Čiarový graf.
+ */
 class PlotLine extends Plot
 {
 
@@ -16,6 +19,11 @@ private $maxY = null;
 private $lineColor = 'black';
 private $fillColor = null;
 
+/**
+ * Vytvorenie nového čiarového grafu s dátami \a yData. Voliteľne je možné
+ * nastaviť dáta na x-ovej osi (\a xData). Ak táto položka zostane nenastavená
+ * trieda automaticky doplní za \a xData čísla od 0 po počet dát - 1.
+ */
 public function __construct(array $yData, $xData = null)
 {
 	if (is_null($xData))

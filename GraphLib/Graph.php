@@ -47,8 +47,10 @@ public function __construct($width, $height)
 	$this->yScale = new LinearScale;
 	$this->yScale->setReverse();
 
-	$this->xAxis = new Axis;
-	$this->yAxis = new Axis;
+	$this->xAxis = new Axis('x');
+	$this->yAxis = new Axis('y');
+	$this->xAxis->setScale($this->xScale);
+	$this->yAxis->setScale($this->yScale);
 }
 
 /**
@@ -70,20 +72,29 @@ public function stroke()
 {
 	imagesavealpha($this->img, true);
 
-	// vykreslenie pozadia
-	$color = GraphColor::createFromName($this->background);
-	imagefill($this->img, 0, 0, $color->allocColor($this->img));
-
-	$this->xScale->setRealSize($this->width - $this->margins[1] - $this->margins[3]);
-	$this->yScale->setRealSize($this->height - $this->margins[0] - $this->margins[2]);
-	$this->xScale->setOffset($this->margins[3]);
-	$this->yScale->setOffset($this->margins[0]);
+	$margins = $this->margins;
 
 	foreach ($this->plots as $plot)
 	{
 		$this->xScale->setScale($plot->minX(), $plot->maxX());
 		$this->yScale->setScale($plot->minY(), $plot->maxY());
 	}
+
+	$this->xScale->setRealSize($this->width - $margins[1] - $margins[3]);
+	$this->yScale->setRealSize($this->height - $margins[0] - $margins[2]);
+
+	$margins[2] += $this->xAxis->width();
+	$margins[3] += $this->yAxis->width();
+
+	// vykreslenie pozadia
+	$color = GraphColor::createFromName($this->background);
+	imagefill($this->img, 0, 0, $color->allocColor($this->img));
+
+	$this->xScale->setRealSize($this->width - $margins[1] - $margins[3]);
+	$this->yScale->setRealSize($this->height - $margins[0] - $margins[2]);
+	$this->xScale->setOffset($margins[3]);
+	$this->yScale->setOffset($margins[0]);
+
 	foreach ($this->plots as $plot)
 	{
 		$plot->draw($this->img,
@@ -91,8 +102,8 @@ public function stroke()
 		            $this->yScale);
 	}
 
-	$this->xAxis->draw($this->img, $this->xScale, $this->height - $this->margins[2], 'x');
-	$this->yAxis->draw($this->img, $this->yScale, $this->margins[3], 'y');
+	$this->xAxis->draw($this->img, $this->height - $margins[2]);
+	$this->yAxis->draw($this->img, $margins[3]);
 
 	header('Content-Type: image/png');
 	imagepng($this->img);

@@ -2,6 +2,9 @@
 
 require_once("GraphLib.php");
 
+/**
+ * Abstraktná trieda reprezentujúca subraf celého grafu.
+ */
 class Plot
 {
 

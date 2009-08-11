@@ -5,7 +5,7 @@ require_once("GraphLib/PlotLine.php");
 
 $pos = -50;
 $ydata = array();
-for ($i = 0; $i <= 300; ++$i)
+for ($i = 0; $i < 300; ++$i)
 {
 	array_push($ydata, max(-50, $pos));
 	$pos += rand(-2,3);

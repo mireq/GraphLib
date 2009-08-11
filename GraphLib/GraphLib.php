@@ -1,5 +1,10 @@
 <?php
 
+if (!defined('FONT_DIR'))
+{
+	define('FONT_DIR','/usr/share/fonts/corefonts');
+}
+
 /**
  * Tvorba a mixovanie farieb.
  */
@@ -228,6 +233,52 @@ private static function generateColorNames()
 }
 
 };
+
+/**
+ * Táto trieda vyhľadáva fonty podľa názvu a prevádza ich na absolútnu cestu.
+ */
+class FontTTF
+{
+
+private $absPath = '';
+
+/** Vytvorenie nového fontu z jeho názvu.
+ *
+ * \sa setFont
+ */
+public function __construct($font)
+{
+	$this->setFont($font);
+}
+
+/**
+ * Nastavenie fontu.
+ *
+ * Font sa vyhľadáva v ceste určenej definíciou \c FONT_DIR. Názov fontu sa
+ * zadáva bez prípony.
+ */
+public function setFont($font)
+{
+	if (is_string($font))
+	{
+		if (strlen($font) > 0 && $font[0] == '/')
+		{
+			$this->absPath = $font;
+		}
+		else
+		{
+			$this->absPath = FONT_DIR . '/' . $font . '.ttf';
+		}
+	}
+}
+
+/// Získanie absolútnej cesty k nastavenému fontu.
+public function getAbsPath()
+{
+	return $this->absPath;
+}
+
+}
 
 
 ?>
