@@ -117,10 +117,10 @@ public function draw($img, Scale $xScale, Scale $yScale)
 
 	if (!is_null($this->fillColor))
 	{
-		$polygon = array($xScale->translate($xScale->min()), $yScale->translate($yScale->min()));
+		$polygon = array($computed[0], $yScale->realMin());
 		$polygon = array_merge($polygon, $computed);
-		array_push($polygon, $xScale->translate($xScale->max()));
-		array_push($polygon, $yScale->translate($yScale->min()));
+		array_push($polygon, $computed[count($computed) - 2]);
+		array_push($polygon, $yScale->realMin());
 
 		imagefilledpolygon($img, $polygon, count($polygon) / 2, $fillColor);
 		unset($polygon);
